@@ -51,6 +51,6 @@ app.get('/feedback/:deviceId/:param', (req, res) => {
 });
 
 
-app.listen(3000, () => {
-    console.log("Server is up and running in http://localhost:3000");
+app.listen(process.env.PORT || 4000, () => {
+    console.log("Server is up and running");
 });
