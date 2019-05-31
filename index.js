@@ -10,6 +10,10 @@ app.use(helmet());
 let uri = "mongodb+srv://arduino:arduino@cluster0-eftn3.gcp.mongodb.net/test?retryWrites=true&w=majority";
 let client = new MongoClient(uri, {useNewUrlParser: true});
 
+app.get('/', (req, res) => {
+    res.send("<h1>App is running</h1>");
+});
+
 app.get('/getrequest/:deviceId', (req, res) => {
     let deviceId = req.params.deviceId;
     client.connect(err => {
