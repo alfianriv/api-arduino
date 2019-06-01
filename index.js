@@ -53,7 +53,7 @@ app.get('/feedback/:deviceId/:param', (req, res) => {
 app.get('/logs/:deviceId', (req, res) => {
     let deviceId = req.params.deviceId;
     client.connect(err => {
-        client.db('arduino').collection('logs').find({device: deviceId}).sort({time: -1}, (err, items) => {
+        client.db('arduino').collection('logs').find({device: deviceId}).sort({time: -1}).toArray((err, items) => {
             res.json(items);
         });
     });
