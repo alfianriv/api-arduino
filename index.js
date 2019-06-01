@@ -50,6 +50,14 @@ app.get('/feedback/:deviceId/:param', (req, res) => {
     });
 });
 
+app.get('/logs/:deviceId', (req, res) => {
+    let deviceId = req.params.deviceId;
+    client.connect(err => {
+        client.db('arduino').collection('logs').find({device: deviceId}).sort({time: -1}, (err, items) => {
+            res.json(items);
+        });
+    });
+});
 
 app.listen(process.env.PORT || 4000, () => {
     console.log("Server is up and running");
