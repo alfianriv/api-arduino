@@ -54,6 +54,9 @@ app.get('/logs/:deviceId', (req, res) => {
     let deviceId = req.params.deviceId;
     client.connect(err => {
         client.db('arduino').collection('logs').find({device: deviceId}).sort({time: -1}).toArray((err, items) => {
+            items.forEach((val) => {
+                val.time = moment(val.time).format('MMMM Do YYYY, HH:mm');
+            });
             res.json(items);
         });
     });
