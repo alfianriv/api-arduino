@@ -1,14 +1,17 @@
-var app = require('express')();
-var http = require('http').createServer(app);
-var io = require('socket.io')(http);
+'use strict';
 
-app.get('/', function(req, res){
-  res.send("Realtime server is running");
-});
+const express = require('express');
+const socketIO = require('socket.io');
+const path = require('path');
 
-http.listen(3000, function(){
-  console.log('listening on *:3000');
-});
+const PORT = process.env.PORT || 3000;
+const INDEX = path.join(__dirname, 'index.html');
+
+const server = express()
+  .use((req, res) => res.send("Server is running") )
+  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+
+const io = socketIO(server);
 
 io.on('connection', function(socket){
   socket.on('iwannajoin', (data) => {
