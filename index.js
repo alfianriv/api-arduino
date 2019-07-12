@@ -28,13 +28,11 @@ io.on('connection', function(socket){
   });
 });
 
-app.io = io;
-
 app.get('/turnoff/:device', (req, res) => {
-  req.app.io.emit('liveFeed', {
+  io.emit('liveFeed', {
     room: req.params.device,
     data: 'no'
   });
 
-  res.send(`${req.app.io.id} has turn off ${req.params.device}`);
+  res.send(`${req.params.device} turn off live feed`);
 });
