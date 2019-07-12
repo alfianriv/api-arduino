@@ -35,4 +35,6 @@ app.get('/turnoff/:device', (req, res) => {
     room: req.params.device,
     data: 'no'
   });
+
+  res.send(`${req.app.io.id} has turn off ${req.params.device}`);
 });
