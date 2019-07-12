@@ -8,10 +8,10 @@ const server = http.createServer(app);
 
 const PORT = process.env.PORT || 3000;
 
-io = io(server);
+const sockio = io(server);
 
 app.use((req, res, next) => {
-  req.io = io;
+  req.io = sockio;
   next();
 });
 
