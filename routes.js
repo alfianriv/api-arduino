@@ -13,3 +13,5 @@ router.get('/turnoff/:device', (req, res, next) => {
 
     res.send(`${req.params.device} is turn off live feed`);
 });
+
+module.exports = router;
