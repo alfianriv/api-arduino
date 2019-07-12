@@ -1,17 +1,20 @@
 'use strict';
 
-const express = require('express');
+var app = require('express')();
+var http = require('http').createServer(app);
 const socketIO = require('socket.io');
-const path = require('path');
 
 const PORT = process.env.PORT || 3000;
-const INDEX = path.join(__dirname, 'index.html');
 
-const server = express()
-  .use((req, res) => res.send("Server is running") )
-  .listen(PORT, () => console.log(`Listening on ${ PORT }`));
+app.get('/', (req, res) => {
+  res.send('Server is running');
+});
 
-const io = socketIO(server);
+http.listen(PORT, () => {
+  console.log(`Server running on ${PORT}`);
+});
+
+const io = socketIO(http);
 
 io.on('connection', function(socket){
   socket.on('iwannajoin', (data) => {
