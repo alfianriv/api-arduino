@@ -15,7 +15,7 @@ app.use((req, res, next) => {
   next();
 });
 
-io.on('connection', (socket) => {
+sockio.on('connection', (socket) => {
   socket.on('iwannajoin', (data) => {
     socket.join(data);
     console.log(`Client with id : ${socket.id} join room ${data}`);
