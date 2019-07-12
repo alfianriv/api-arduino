@@ -1,27 +1,32 @@
-const sockpress = require('sockpress');
+const express = require('express');
+const http = require('http');
+const io = require('socket.io');
+const routes = require('./routes.js');
+
+const app = express();
+const server = http.createServer(app);
+
 const PORT = process.env.PORT || 3000;
 
-const app = sockpress.init({
-  secret: 'pf'
+io = io(server);
+
+app.use((req, res, next) => {
+  req.io = io;
+  next();
 });
 
-app.get('/', (req, res) => {
-  res.send('Server is running');
+io.on('connection', (socket) => {
+  socket.on('iwannajoin', (data) => {
+    socket.join(data);
+    console.log(`Client with id : ${socket.id} join room ${data}`);
+  });
+
+  socket.on('liveFeed', (data) => {
+    socket.to(data.room).emit('lvClient', data.data);
+    console.log(`${socket.id} Send ${data.data} in ${data.room}`);
+  });
 });
 
-app.on.io('connection', (socket) => {
-  console.log(`${socket.id} is connected`);
-});
+app.use('/', routes);
 
-app.io.route('iwannajoin', (socket, data) => {
-  socket.join(data);
-  console.log(`Client with id : ${socket.id} join room ${data}`);
-});
-
-app.io.route('liveFeed', (socket, data) => {
-  socket.to(data.room).emit('lvClient', data.data);
-  console.log(`${socket.id} Send ${data.data} in ${data.room}`);
-});
-
-
-app.listen(PORT);
+server.listen(PORT);
