@@ -34,5 +34,5 @@ app.get('/turnoff/:device', (req, res) => {
     data: 'no'
   });
 
-  res.send(`${req.params.device} turn off live feed ${io}`);
+  res.json(io);
 });
