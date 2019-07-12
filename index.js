@@ -27,3 +27,12 @@ io.on('connection', function(socket){
     console.log(`${socket.id} Send ${data.data} in ${data.room}`);
   });
 });
+
+app.io = io;
+
+app.get('/turnoff/:device', (req, res) => {
+  req.app.io.emit('liveFeed', {
+    room: req.params.device,
+    data: 'no'
+  });
+});
