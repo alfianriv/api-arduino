@@ -24,5 +24,6 @@ io.on('connection', function(socket){
 
   socket.on('liveFeed', (data) => {
     socket.to(data.room).emit('lvClient', data.data);
+    console.log(`${socket.id} Send ${data.data} in ${data.room}`);
   });
 });
